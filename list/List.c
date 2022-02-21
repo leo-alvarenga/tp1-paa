@@ -4,56 +4,97 @@
 
 #include "List.h"
 
-void initList(List **list)
+List *initList()
 {
-    list = (List **)(malloc(sizeof(List *)));
-    *list = (List *)(malloc(sizeof(List)));
+    List *list;
 
-    (*list)->first =  (*list)->last = NULL;
-    (*list)->length = 0;
+    list = (List *)(malloc(sizeof(List)));
+
+    list->last = list->first = NULL;
+    list->length = 0;
+
+    return list;
 }
 
 
-void newNode(List **list, int x, int y, char symbol, int str, int pk)
+List *newNode(List *list, int x, int y, char symbol, int str, int pk)
 {
     Node *aux;
 
-    (*list)->last->next = (Node *)(malloc(sizeof(Node)));
+    if (list == NULL)
+        list = initList();
 
-    (*list)->last->next->prev = (*list)->last;
-    aux = (*list)->last->next;
+    if (list->last == NULL) {
+        list->last = (Node *)(malloc(sizeof(Node)));
 
-    (*list)->last = aux;
+        list->last->next = NULL;
+        list->last->x = x;
+        list->last->y = y;
+        list->last->symbol = symbol;
+        list->last->index = list->length;
+        list->last->battleResult[0] = str;
+        list->last->battleResult[1] = pk;
 
-    (*list)->last->next = NULL;
-    (*list)->last->x = x;
-    (*list)->last->y = y;
-    (*list)->last->symbol = symbol;
-    (*list)->last->index = (*list)->length;
-    (*list)->last->battleResult[0] = str;
-    (*list)->last->battleResult[1] = pk;
+        ++list->length;
+        return list;
+    }
 
-    ++(*list)->length;
+    list->last->next = NULL;
+    list->last->next = (struct node*)(malloc(sizeof (Node)));;
+
+    list->last->next->prev = list->last;
+    aux = list->last->next;
+
+    list->last = aux;
+
+    list->last->next = NULL;
+    list->last->x = x;
+    list->last->y = y;
+    list->last->symbol = symbol;
+    list->last->index = list->length;
+    list->last->battleResult[0] = str;
+    list->last->battleResult[1] = pk;
+
+    ++list->length;
+
+    return list;
 }
 
 
-Node popNode(List **list)
+List *popNode(List *list)
 {
-    Node node, *aux;
-
-    node.x = (*list)->last->x;
-    node.y = (*list)->last->y;
-
-    node.battleResult[0] = (*list)->last->battleResult[0];
-    node.battleResult[1] = (*list)->last->battleResult[1];
-
-    node.symbol = (*list)->last->symbol;
-
-    aux = (*list)->last;
-    (*list)->last = (*list)->last->prev;
+    Node *aux;
+    aux = list->last;
+    list->last = list->last->prev;
 
     free(aux);
-    --(*list)->length;
+    --list->length;
 
-    return node;
+    return list;
+}
+
+void show(List *list)
+{
+    if (list != NULL) {
+        int cont = list->length;
+        Node *aux;
+        aux = list->first;
+
+        while (cont > 0) {
+            aux = aux->next;
+
+            if (aux == NULL)
+                break;
+
+            printf("Linha: %d, Coluna: %d", aux->x, aux->y);
+
+            if (aux->battleResult[0] >= 0) {
+                printf("; P: %d, K: %d", aux->battleResult[0], aux->battleResult[1]);
+            }
+
+            printf("\n");
+
+            --cont;
+        }
+    }
 }

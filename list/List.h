@@ -22,8 +22,9 @@ typedef struct {
 } List;
 
 
-void initList(List **list);
-void newNode(List **list, int x, int y, char symbol, int str, int pk);
-Node popNode(List **list);
+List *initList();
+List *newNode(List *list, int x, int y, char symbol, int str, int pk);
+List *popNode(List *list);
+void show(List *list);
 
 #endif //TP1_PAA_LIST_H

@@ -14,6 +14,8 @@ void mainMenu()
     int **log;
     int moves; moves = 0;
 
+    List *list = initList();
+
     map = NULL;
 
     while (true) {
@@ -45,9 +47,14 @@ void mainMenu()
         log = (int **)(malloc(sizeof(int *) * (data.rows * data.cols)));
         (*log) = (int *)(malloc(sizeof(int) * 2));
 
-        int pos[2];
-        pos[0] = map->startX; pos[1] = map->startY;
-        move(pos, pos, map->ness->strength, map->ness->pkFlash);
+        int pos[2], old[2];
+        pos[0] = map->startX ; pos[1] = map->startY;
+        old[0] = map->startX - 1; old[1] = map->startY - 1;
+
+        if (move(old, pos, map->ness->strength, map->ness->pkFlash, &list))
+            show(list);
+        else
+            printf("Apesar de todas as tentativas, Ness falha em derrotar Giygas!\n");
     }
 
 

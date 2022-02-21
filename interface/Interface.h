@@ -8,6 +8,8 @@
 #include "../entities/Actors.h"
 #include "../input/Input.h"
 
+#define ANALISE false
+
 void mainMenu();
 
 #endif //TP1_PAA_INTERFACE_H

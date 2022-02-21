@@ -25,7 +25,6 @@ typedef struct {
     int rows, cols;
 
     int startX, startY;
-    List *list;
 } Map;
 
 Map *map;
@@ -37,7 +36,7 @@ short tileType(int x, int y);
 bool isItTheLastMove(int oldX, int oldY, int newX, int newY);
 int* getEnemyStats(int x, int y);
 
-bool move(int *oldPos, int *currentPos, int str, int pk);
+bool move(int *oldPos, int *currentPos, int str, int pk, List **list);
 
 bool isPositionOccupied(int row, int col, int x, int y);
 void showMap();
